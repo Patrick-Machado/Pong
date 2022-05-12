@@ -11,6 +11,14 @@ public class PlayerMovement : MonoBehaviour
     public float limitMovement = 4f;
     float deltaX;
 
+    public Ball ball;
+
+    private void Start()
+    {
+        if (TestingOnPC) { Invoke("InitBall",1f); }
+        Game_Manager.Instance.mainMenu.SetActive(false);
+    }
+
     void Update()
     {
         if (TestingOnPC) //on PC running tests
@@ -36,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
-                        deltaX = touchpos.x - transform.position.x;
+                        deltaX = touchpos.x - transform.position.x; InitBall();
                         break;
                     case TouchPhase.Moved:
                         transform.position = new Vector3(touchpos.x * moveSpeedMobile * Time.fixedDeltaTime, transform.position.y, transform.position.z) ;
@@ -54,5 +62,12 @@ public class PlayerMovement : MonoBehaviour
     
         
     }
+
+
+    void InitBall()
+    {
+        ball.Pause_Ball(false);
+    }
+
 
 }
