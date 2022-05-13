@@ -17,7 +17,9 @@ public class Game_Manager : MonoBehaviour
     public Audio audio_manager;
 
     [HideInInspector]List< GameObject> BallClones = new List<GameObject>();
-    
+
+    public GameObject BackgroundTitle;
+    public GameObject GameWin;
     void Awake()
     {
         if (Instance != null)
@@ -33,7 +35,7 @@ public class Game_Manager : MonoBehaviour
 
     public enum Stage_Screens
     {
-        Menu, Configs, Credits, Level1, Level2, Level3, Level4, Level5
+        Menu, Level1, Level2, Level3, Level4, Level5
     }
 
     public enum Player_State
@@ -78,6 +80,7 @@ public class Game_Manager : MonoBehaviour
     public void NextStage()
     {
         setPlayerStateAs(Player_State.Playing);
+        if(current_Screen == Stage_Screens.Level5) { GameWin.SetActive(true); ChangeScene("GameWin"); current_Screen = Stage_Screens.Menu; }
         if(current_Screen == Stage_Screens.Level4) { ChangeScene("Level_5"); current_Screen = Stage_Screens.Level5; Time.timeScale = 2f; }
         if(current_Screen == Stage_Screens.Level3) { ChangeScene("Level_4"); current_Screen = Stage_Screens.Level4; Time.timeScale = 1.6f; }
         if(current_Screen == Stage_Screens.Level2) { ChangeScene("Level_3"); current_Screen = Stage_Screens.Level3; Time.timeScale = 1.3f; }

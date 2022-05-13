@@ -12,7 +12,8 @@ public class Level_Bricks : MonoBehaviour
 
     private void Start()
     {
-        life_number_txt.text = 3.ToString(); 
+        life_number_txt.text = 3.ToString();
+        Game_Manager.Instance.BackgroundTitle.SetActive(false);
     }
 
     public int Lose_A_Life()
