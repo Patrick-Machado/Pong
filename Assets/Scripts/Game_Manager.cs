@@ -20,6 +20,9 @@ public class Game_Manager : MonoBehaviour
 
     public GameObject BackgroundTitle;
     public GameObject GameWin;
+
+    public bool TestingOnPC = false;// if true it will read the keyboard instead of mobile inputs
+
     void Awake()
     {
         if (Instance != null)
