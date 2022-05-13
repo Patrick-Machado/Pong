@@ -8,6 +8,8 @@ public class Level_Bricks : MonoBehaviour
     public Text life_number_txt;
     private int life = 3;
 
+    public List<PowerUp> PowerUps;
+
     private void Start()
     {
         life_number_txt.text = 3.ToString(); 
@@ -38,5 +40,24 @@ public class Level_Bricks : MonoBehaviour
             GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>().Pause_Ball(true);
             Game_Manager.Instance.Stage_Win();
         }
+    }
+
+    bool powerUpisRunning = false; int id_powerUp = 0;
+    public void InitPowerUP(Vector3 pos)
+    {
+        if (powerUpisRunning) return;
+
+        id_powerUp = Random.Range(0, PowerUps.Count-1);
+
+        PowerUps[id_powerUp].gameObject.SetActive(true);
+        PowerUps[id_powerUp].transform.Translate(pos);
+        powerUpisRunning = true;
+
+    }
+
+
+    public void setPowerUpIsRunningOff()
+    {
+        powerUpisRunning = false;
     }
 }

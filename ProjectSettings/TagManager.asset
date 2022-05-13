@@ -9,6 +9,8 @@ TagManager:
   - Brick
   - Reset_Ball_Spot
   - Level_Ctrl
+  - Reset_PowerUpPos
+  - Clone
   layers:
   - Default
   - TransparentFX

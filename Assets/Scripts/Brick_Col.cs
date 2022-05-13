@@ -15,7 +15,14 @@ public class Brick_Col : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ball"))
         {
-            other.gameObject.GetComponent<Ball>().ReflectBallFromBrickColliding(reflect_to);
+            if(master_brick.mBrick_Type == Brick.Brick_Type.common    &&  other.gameObject.GetComponent<Ball>().isMetalBall) { soundCommonBrick_MetalBall(); } //NOT REFLECT the metal ball should pass through destroying
+            if(master_brick.mBrick_Type == Brick.Brick_Type.concrete  &&  other.gameObject.GetComponent<Ball>().isMetalBall) { soundConcreteBrick_MetalBall(); } //reflect but destroy with one hit
+            if(master_brick.mBrick_Type == Brick.Brick_Type.metal     &&  other.gameObject.GetComponent<Ball>().isMetalBall) { soundMetalBrick_MetalBall();  callReflection(other.gameObject); } //just reflect with metal sound
+
+            if(master_brick.mBrick_Type == Brick.Brick_Type.common    &&  other.gameObject.GetComponent<Ball>().isMetalBall == false) { soundCommonBrick_NormalBall();   callReflection(other.gameObject); }
+            if(master_brick.mBrick_Type == Brick.Brick_Type.concrete  &&  other.gameObject.GetComponent<Ball>().isMetalBall == false) { soundConcreteBrick_NormalBall(); callReflection(other.gameObject); }
+            if(master_brick.mBrick_Type == Brick.Brick_Type.metal     &&  other.gameObject.GetComponent<Ball>().isMetalBall == false) { soundMetalBrick_NormalBall();    callReflection(other.gameObject); }
+
             master_brick.Ball_Hit();
         }
     }
@@ -24,5 +31,49 @@ public class Brick_Col : MonoBehaviour
     {
         Right, Left, Up, Down
     }
+
+
+    void callReflection(GameObject ball)
+    {
+        ball.gameObject.GetComponent<Ball>().ReflectBallFromBrickColliding(reflect_to);
+    }
+
+
+
+    #region SoundTriggers
+    void soundCommonBrick_MetalBall()
+    {
+        Game_Manager.Instance.audio_manager.PlaySound(Game_Manager.Instance.audio_manager.metalball);
+        Game_Manager.Instance.audio_manager.PlaySound2(Game_Manager.Instance.audio_manager.brickhit2);
+    }
+    void soundConcreteBrick_MetalBall()
+    {
+        Game_Manager.Instance.audio_manager.PlaySound(Game_Manager.Instance.audio_manager.metalball);
+        Game_Manager.Instance.audio_manager.PlaySound2(Game_Manager.Instance.audio_manager.concretebreak);
+    }
+    void soundMetalBrick_MetalBall()
+    {
+        Game_Manager.Instance.audio_manager.PlaySound(Game_Manager.Instance.audio_manager.metalball);
+        Game_Manager.Instance.audio_manager.PlaySound2(Game_Manager.Instance.audio_manager.metalball);
+    }
+
+    void soundCommonBrick_NormalBall()
+    {
+        Game_Manager.Instance.audio_manager.PlayAnyPong();
+        Game_Manager.Instance.audio_manager.PlaySound2(Game_Manager.Instance.audio_manager.brickhit1);
+    }
+
+    void soundConcreteBrick_NormalBall()
+    { 
+        Game_Manager.Instance.audio_manager.PlayAnyPong();
+        Game_Manager.Instance.audio_manager.PlaySound2(Game_Manager.Instance.audio_manager.brickhit1);
+    }
+    
+    void soundMetalBrick_NormalBall()
+    { 
+        Game_Manager.Instance.audio_manager.PlayAnyPong();
+    }
+
+    #endregion
 
 }

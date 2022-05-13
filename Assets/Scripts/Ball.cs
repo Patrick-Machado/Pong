@@ -17,22 +17,33 @@ public class Ball : MonoBehaviour
     bool hitOnLooseLine = false;
 
     public Transform resetPos;
+
+    public bool isMetalBall = false;
+    public GameObject normalBallSkin;
+    public GameObject metalBallSkin;
+
+   
+
     void Start()
     {
         displacement = transform.position;
     }
 
+    public void UnPauseBall()
+    {
+        isPaused = false;
+    }
 
     void FixedUpdate()
     {
- 
+        
         if (isPaused) return;
 
 
-        float tempo = Time.fixedDeltaTime;
+        float time = Time.fixedDeltaTime;
         acceleration = force / mass; // + gravity;
-        velocity += acceleration * tempo;
-        displacement += tempo * velocity;
+        velocity += acceleration * time; if(Game_Manager.Instance.current_Screen != Game_Manager.Stage_Screens.Level1) { Time.timeScale += Time.fixedDeltaTime*0.02f; }
+        displacement += time * velocity;
         transform.position = displacement;
         force = Vector3.zero;
 
@@ -40,24 +51,30 @@ public class Ball : MonoBehaviour
         {
             velocity = velocity.magnitude * elasticity *
                     Reflect(velocity.normalized, Vector3.right);
+            PlayBallSound();
         }
 
         if (displacement.x > 4.33f)
         {
             velocity = velocity.magnitude * elasticity *
                     Reflect(velocity.normalized, Vector3.left);
+            PlayBallSound();
         }
         
         if (displacement.y > 15.58f)
         {
             velocity = velocity.magnitude * elasticity *
                     Reflect(velocity.normalized, Vector3.down);
+            PlayBallSound();
         }
 
         if(displacement.y < -0.16f && coliding)
         {
             velocity = velocity.magnitude * elasticity *
                     Reflect(velocity.normalized, Vector3.up);
+
+            PlayBallSound();
+
         }
 
         if (displacement.y < -4f)
@@ -80,6 +97,7 @@ public class Ball : MonoBehaviour
     public static Vector3 Reflect(Vector3 vector, Vector3 normal)
     {
         return vector - 2 * Vector3.Dot(vector, normal) * normal;
+
     }
 
     bool coliding = false;
@@ -106,6 +124,8 @@ public class Ball : MonoBehaviour
         if(dir == Brick_Col.reflection_direction.Left)  { velocity = velocity.magnitude * elasticity * Reflect(velocity.normalized, Vector3.left); }
         if(dir == Brick_Col.reflection_direction.Up)    { velocity = velocity.magnitude * elasticity * Reflect(velocity.normalized, Vector3.up); }
         if(dir == Brick_Col.reflection_direction.Down)  { velocity = velocity.magnitude * elasticity * Reflect(velocity.normalized, Vector3.down); }
+
+        PlayBallSound();
     }
 
     public void Pause_Ball(bool key)
@@ -115,6 +135,10 @@ public class Ball : MonoBehaviour
 
     public void ResetBallPos()
     {
+        isMetalBall = false;
+        metalBallSkin.SetActive(false);
+        normalBallSkin.SetActive(true);
+
         hitOnLooseLine = true;
         Pause_Ball(true);
         velocity = Vector3.zero;
@@ -133,5 +157,20 @@ public class Ball : MonoBehaviour
         AddForce(new Vector3(value, 150, 0));
     }
 
+    public void TrnsformToMetalBall()
+    {
+        isMetalBall = true;
+        metalBallSkin.SetActive(true);
+        normalBallSkin.SetActive(false);
+
+
+    }
+
+
+    void PlayBallSound()
+    {
+        if (isMetalBall) { Game_Manager.Instance.audio_manager.PlaySound(Game_Manager.Instance.audio_manager.metalball); }
+        else { Game_Manager.Instance.audio_manager.PlayAnyPong(); }
+    }
 
 }

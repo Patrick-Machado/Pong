@@ -232,7 +232,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4069f1fec2383634898c966debaf2179, type: 2}
+  - {fileID: 2100000, guid: 486bb4508e136964aa6ccf84a3e81a04, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -267,6 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mBrick_Type: 1
+  concrete_cracked_mat: {fileID: 0}
 --- !u!1 &8184985582433308445
 GameObject:
   m_ObjectHideFlags: 0
