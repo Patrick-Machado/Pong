@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Audio : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Audio : MonoBehaviour
     public AudioClip soaring;
     public AudioClip powerup;
 
+    public Slider BackgroundSongSlider;
+    public Slider SoundsEffectsSlider;
 
     public void PlayBackgroundSong(AudioClip clip)
     {
@@ -55,6 +58,17 @@ public class Audio : MonoBehaviour
     public void PlayGameSong()
     {
         PlayBackgroundSong(funnybubbles);
+    }
+
+
+    public void updateVolumeBackground()
+    {
+        backgroun_speaker.volume = BackgroundSongSlider.value;
+    }
+    public void updateVolumeSoundEffects()
+    {
+        speaker.volume = SoundsEffectsSlider.value;
+        speaker2.volume = SoundsEffectsSlider.value;
     }
 
 }

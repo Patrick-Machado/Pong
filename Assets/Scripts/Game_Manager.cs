@@ -17,8 +17,7 @@ public class Game_Manager : MonoBehaviour
     public Audio audio_manager;
 
     [HideInInspector]List< GameObject> BallClones = new List<GameObject>();
-
-
+    
     void Awake()
     {
         if (Instance != null)
@@ -136,10 +135,12 @@ public class Game_Manager : MonoBehaviour
         BallClones.Add(b.gameObject);
         BallClones.Add(b2.gameObject);
 
-        float dir = Random.RandomRange(1, 180);
-        b.GetComponent<Ball>().AddForce( new  Vector3(dir, 150, 0));
-        dir = Random.RandomRange(180, 360);
-        b2.GetComponent<Ball>().AddForce( new  Vector3(dir, 150, 0));
+        float dir = Random.Range(1, 180);
+        float dir2 = Random.Range(1, 180);
+        b.GetComponent<Ball>().AddForce( new  Vector3(dir, dir2, 0));
+        dir = Random.Range(180, 360);
+        dir2 = Random.Range(1, 180);
+        b2.GetComponent<Ball>().AddForce( new  Vector3(dir, dir2, 0));
     }
     public void MetalBall_PowerUp()
     {
@@ -174,7 +175,5 @@ public class Game_Manager : MonoBehaviour
             NextStage();
         }
     }
-    private void FixedUpdate()
-    {
-    }
+    
 }

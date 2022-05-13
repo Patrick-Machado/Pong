@@ -42,7 +42,7 @@ public class Ball : MonoBehaviour
 
         float time = Time.fixedDeltaTime;
         acceleration = force / mass; // + gravity;
-        velocity += acceleration * time; if(Game_Manager.Instance.current_Screen != Game_Manager.Stage_Screens.Level1) { Time.timeScale += Time.fixedDeltaTime*0.02f; }
+        velocity += acceleration * time; 
         displacement += time * velocity;
         transform.position = displacement;
         force = Vector3.zero;
