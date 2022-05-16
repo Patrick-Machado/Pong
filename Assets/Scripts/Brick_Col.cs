@@ -21,7 +21,7 @@ public class Brick_Col : MonoBehaviour
         {   
             if(master_brick.mBrick_Type == Brick.Brick_Type.common    &&  other.gameObject.GetComponent<Ball>().isMetalBall) { soundCommonBrick_MetalBall(); } //NOT REFLECT the metal ball should pass through destroying
             if(master_brick.mBrick_Type == Brick.Brick_Type.concrete  &&  other.gameObject.GetComponent<Ball>().isMetalBall) { soundConcreteBrick_MetalBall(); } //reflect but destroy with one hit
-            if(master_brick.mBrick_Type == Brick.Brick_Type.metal     &&  other.gameObject.GetComponent<Ball>().isMetalBall) { soundMetalBrick_MetalBall(); callReflection(other.gameObject); other.gameObject.GetComponent<Rotating>().Rotate(); master_brick.TriggerVFX(master_brick.ironHitParticle);   } //just reflect with metal sound
+            if(master_brick.mBrick_Type == Brick.Brick_Type.metal     &&  other.gameObject.GetComponent<Ball>().isMetalBall) { soundMetalBrick_MetalBall(); metalToMetal(other); } //just reflect with metal sound
 
             if(master_brick.mBrick_Type == Brick.Brick_Type.common    &&  other.gameObject.GetComponent<Ball>().isMetalBall == false) { soundCommonBrick_NormalBall();   callReflection(other.gameObject); }
             if(master_brick.mBrick_Type == Brick.Brick_Type.concrete  &&  other.gameObject.GetComponent<Ball>().isMetalBall == false) { soundConcreteBrick_NormalBall(); callReflection(other.gameObject); }
@@ -38,7 +38,14 @@ public class Brick_Col : MonoBehaviour
 
     void callReflection(GameObject ball)
     {
+        
         ball.gameObject.GetComponent<Ball>().ReflectBallFromBrickColliding(reflect_to);
+    }
+    void metalToMetal(Collider other)
+    {
+        master_brick.TriggerVFX(master_brick.ironHitParticle);
+        callReflection(other.gameObject); 
+        other.gameObject.GetComponent<Rotating>().Rotate();
     }
     #endregion
 
