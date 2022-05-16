@@ -11,7 +11,10 @@ public class Paddle_Skin : MonoBehaviour
     public GameObject Spheres;
     public GameObject Spikes;
 
-
+    private void Start()
+    {
+        Game_Manager.Instance.currentScenePaddle = gameObject;
+    }
     public void TransformToMegaVisually()
     {
         transform.localScale = new Vector3(megaScale, 1, 1);

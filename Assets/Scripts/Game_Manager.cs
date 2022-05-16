@@ -25,6 +25,7 @@ public class Game_Manager : MonoBehaviour
 
     public string InitialLevelName = "Level_1";
     [HideInInspector] public GameObject currentSceneMainBall;
+    [HideInInspector] public GameObject currentScenePaddle;
     
     
     void Awake()
@@ -185,11 +186,17 @@ public class Game_Manager : MonoBehaviour
     }
     public void MegaPaddle_PowerUp(bool key)
     {
-        if(key == true)  GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>()
-                .TransformToMegaVisually(); StartCoroutine(Delay());
-        if(key == false && 
-            player_state == Player_State.Playing) 
+        if (key == true)
+        {
+            if (currentScenePaddle.GetComponent<Paddle_Skin>().Ornaments.gameObject.activeSelf == true) return;
+
+            GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>().TransformToMegaVisually(); StartCoroutine(Delay());
+        }
+        else if (key == false &&
+            player_state == Player_State.Playing)
+        {
             GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>().TransformToNormalVisually();
+        }
     }
 
     void ResetMega()

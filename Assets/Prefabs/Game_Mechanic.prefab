@@ -464,6 +464,7 @@ GameObject:
   - component: {fileID: 8865456972597444044}
   - component: {fileID: 8865456972597444082}
   - component: {fileID: 8865456972597444045}
+  - component: {fileID: 5907406986453321987}
   m_Layer: 0
   m_Name: Ball_Metalic
   m_TagString: Ball
@@ -535,6 +536,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5907406986453321987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8865456972597444047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e54fdb9a3b98a284f88982ee12bc28fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8865456973198525903
 GameObject:
   m_ObjectHideFlags: 0

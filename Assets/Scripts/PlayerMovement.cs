@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (ball.isPaused) return;
         if (TestingOnPC) //on PC running tests
         {
             var move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);

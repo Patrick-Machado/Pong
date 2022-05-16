@@ -14,8 +14,8 @@ public class Ball : MonoBehaviour
     Vector3         gravity = new Vector3(0, -9.8f, 0);
     public float    elasticity;
 
-    bool isPaused = true;
-    bool hitOnLooseLine = false;
+    public bool isPaused = true;
+    bool hitOnLooseLine  = false;
 
     public Transform resetPos;
 
@@ -61,6 +61,7 @@ public class Ball : MonoBehaviour
             velocity = velocity.magnitude * elasticity *
                     Reflect(velocity.normalized, Vector3.right);
             PlayBallSound();
+            ReRotate();
         }
 
         if (displacement.x > 4.33f)
@@ -68,6 +69,7 @@ public class Ball : MonoBehaviour
             velocity = velocity.magnitude * elasticity *
                     Reflect(velocity.normalized, Vector3.left);
             PlayBallSound();
+            ReRotate();
         }
         
         if (displacement.y > 15.58f)
@@ -75,6 +77,7 @@ public class Ball : MonoBehaviour
             velocity = velocity.magnitude * elasticity *
                     Reflect(velocity.normalized, Vector3.down);
             PlayBallSound();
+            ReRotate();
         }
 
         if (displacement.y < -0.16f && coliding && !paddleBounceHitDelay)
@@ -83,7 +86,8 @@ public class Ball : MonoBehaviour
                     Reflect(velocity.normalized, Vector3.up);
 
             PlayBallSound();
-            
+            ReRotate();
+
             paddleBounceHitDelay = true;
             StartCoroutine(paddleBounceHitDelayTime());
 
@@ -145,6 +149,13 @@ public class Ball : MonoBehaviour
         PlayBallSound();
     }
 
+    void ReRotate()
+    {
+        if (isMetalBall)
+        {
+            metalBallSkin.GetComponent<Rotating>().Rotate();
+        }
+    }
     #endregion
 
     #region BallManagement
