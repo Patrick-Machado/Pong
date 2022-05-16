@@ -22,26 +22,26 @@ public class Audio : MonoBehaviour
     public Slider BackgroundSongSlider;
     public Slider SoundsEffectsSlider;
 
+    #region MainSoundMethods
     public void PlayBackgroundSong(AudioClip clip)
     {
         backgroun_speaker.clip = clip;
         backgroun_speaker.Play();
 
     }
-
     public void PlaySound(AudioClip clip)
     {
         speaker.clip = clip;
         speaker.Play();
     }
-    
     public void PlaySound2(AudioClip clip)
     {
         speaker2.clip = clip;
         speaker2.Play();
     }
+    #endregion
 
-
+    #region SecundarySoundMethods
     public void PlayAnyPong()
     {
         int id_pongsound = Random.Range(0, ballpong.Count - 1);
@@ -59,8 +59,10 @@ public class Audio : MonoBehaviour
     {
         PlayBackgroundSong(funnybubbles);
     }
+    #endregion
 
 
+    #region AudioSlidersUpdaters
     public void updateVolumeBackground()
     {
         backgroun_speaker.volume = BackgroundSongSlider.value;
@@ -70,5 +72,5 @@ public class Audio : MonoBehaviour
         speaker.volume = SoundsEffectsSlider.value;
         speaker2.volume = SoundsEffectsSlider.value;
     }
-
+    #endregion
 }

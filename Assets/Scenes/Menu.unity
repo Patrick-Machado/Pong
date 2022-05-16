@@ -641,8 +641,9 @@ MonoBehaviour:
   audio_manager: {fileID: 494391502}
   BackgroundTitle: {fileID: 1383488084}
   GameWin: {fileID: 1231208926}
-  TestingOnPC: 1
+  TestingOnPC: 0
   InitialLevelName: Level_1
+  currentSceneMainBall: {fileID: 0}
 --- !u!4 &494391500
 Transform:
   m_ObjectHideFlags: 0

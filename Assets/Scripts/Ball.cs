@@ -4,31 +4,33 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    Vector3 acceleration;
-    public Vector3 displacement;
-    public Vector3 velocity;
-    float time;
-    public float mass = 1;
-    public Vector3 force;
-    Vector3 gravity = new Vector3(0, -9.8f, 0);
-    public float elasticity;
+
+    Vector3         acceleration;
+    public Vector3  displacement;
+    public Vector3  velocity;
+    float           time;
+    public float    mass = 1;
+    public Vector3  force;
+    Vector3         gravity = new Vector3(0, -9.8f, 0);
+    public float    elasticity;
 
     bool isPaused = true;
     bool hitOnLooseLine = false;
 
     public Transform resetPos;
 
-    public bool isMetalBall = false;
+    public bool     isMetalBall = false;
     public GameObject normalBallSkin;
     public GameObject metalBallSkin;
-    bool paddleBounceHitDelay = false;
+    bool            paddleBounceHitDelay = false;
 
 
 
     void Start()
     {
         displacement = transform.position;
-        if(Game_Manager.Instance.currentSceneMainBall == null) { Game_Manager.Instance.currentSceneMainBall = this.gameObject; }
+        if(Game_Manager.Instance.currentSceneMainBall == null) 
+        { Game_Manager.Instance.currentSceneMainBall = this.gameObject; }
     }
 
     public void UnPauseBall()
@@ -39,17 +41,21 @@ public class Ball : MonoBehaviour
     void FixedUpdate()
     {
         
-        if (updatingBallPosWithThePaddleTargetPos == true) { transform.position = resetPos.position; displacement = transform.position; return; }
+        if (updatingBallPosWithThePaddleTargetPos == true) 
+        { transform.position = resetPos.position; displacement = transform.position; return; }
+        
         if (isPaused) return;
 
-
-        float time = Time.fixedDeltaTime;
-        acceleration = force / mass; // + gravity;
-        velocity += acceleration * time; 
-        displacement += time * velocity;
+        #region PhysicsFromScratch
+        float time         = Time.fixedDeltaTime;
+        acceleration       = force / mass; // + gravity;
+        velocity          += acceleration * time; 
+        displacement      += time * velocity;
         transform.position = displacement;
         force = Vector3.zero;
+        #endregion
 
+        #region MathColiders
         if (displacement.x < -4.33f)
         {
             velocity = velocity.magnitude * elasticity *
@@ -95,7 +101,12 @@ public class Ball : MonoBehaviour
 
         if (velocity.magnitude > 0.1f)
             transform.position = displacement;
+
+        #endregion
     }
+
+
+    #region PhysicsAndReflection
     public void AddForce(Vector3 f)
     {
         force = f;
@@ -134,6 +145,9 @@ public class Ball : MonoBehaviour
         PlayBallSound();
     }
 
+    #endregion
+
+    #region BallManagement
     public void Pause_Ball(bool key)
     {
         isPaused = key;
@@ -141,15 +155,15 @@ public class Ball : MonoBehaviour
 
     public void ResetBallPos()
     {
-        isMetalBall = false;
+        isMetalBall     = false;
         metalBallSkin.SetActive(false);
         normalBallSkin.SetActive(true);
 
-        hitOnLooseLine = true;
+        hitOnLooseLine  = true;
         Pause_Ball(true);
-        velocity = Vector3.zero;
+        velocity        = Vector3.zero;
         updatingBallPosWithThePaddleTargetPos = true;
-        displacement = transform.position;
+        displacement    = transform.position;
 
         StartCoroutine(ReshootBallDelay()); ;
     }
@@ -169,17 +183,18 @@ public class Ball : MonoBehaviour
         isMetalBall = true;
         metalBallSkin.SetActive(true);
         normalBallSkin.SetActive(false);
-
-
     }
-
 
     void PlayBallSound()
     {
-        if (isMetalBall) { Game_Manager.Instance.audio_manager.PlaySound(Game_Manager.Instance.audio_manager.metalball); }
+        if (isMetalBall) { Game_Manager.Instance.audio_manager
+                .PlaySound(Game_Manager.Instance.audio_manager.metalball); }
         else { Game_Manager.Instance.audio_manager.PlayAnyPong(); }
     }
+    #endregion
 
+
+    #region Cooldowns
     bool updatingBallPosWithThePaddleTargetPos = false;
     IEnumerator ReshootBallDelay()
     {
@@ -190,9 +205,8 @@ public class Ball : MonoBehaviour
 
     IEnumerator paddleBounceHitDelayTime()
     {
-
         yield return new WaitForSeconds(1f);
         paddleBounceHitDelay = false;
     }
-
+    #endregion
 }

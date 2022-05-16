@@ -6,7 +6,8 @@ public class Brick : MonoBehaviour
 {
 
     public Brick_Type mBrick_Type = Brick.Brick_Type.common;
-    Level_Bricks level_Bricks;
+
+    Level_Bricks    level_Bricks;
     public Material concrete_cracked_mat;
 
     void Start()
@@ -14,6 +15,12 @@ public class Brick : MonoBehaviour
         level_Bricks = GameObject.FindGameObjectWithTag("Level_Ctrl").GetComponent<Level_Bricks>();
     }
 
+    public enum Brick_Type
+    {
+        common, metal, concrete
+    }
+
+    #region BallHit
     bool notcallReduceTwice = false; int hitcount = 0; bool onDelay; Ball ball;
     public void Ball_Hit()
     {
@@ -51,29 +58,27 @@ public class Brick : MonoBehaviour
 
         }
     }
+    #endregion
 
-    void removeOnDelay()
-    {
-        onDelay = false;
-    }
 
-    public enum Brick_Type
-    {
-        common, metal, concrete
-    }
 
+    #region DelayAndDestroy
     void DestroyBrick()
     {
         int powerUP_rand = Random.Range(1, 100);
-        if(powerUP_rand < 45) { level_Bricks.InitPowerUP(transform.position); }
+        if (powerUP_rand < 45) { level_Bricks.InitPowerUP(transform.position); }
 
         Destroy(gameObject);
     }
-
 
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(1f);
         removeOnDelay();
     }
+    void removeOnDelay()
+    {
+        onDelay = false;
+    }
+    #endregion
 }

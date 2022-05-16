@@ -29,7 +29,7 @@ public class PowerUp : MonoBehaviour
             if (Game_Manager.Instance.player_state == Game_Manager.Player_State.Resting) { isActive = false; }
             if (!isActive) return;
 
-            if (PowerUpType == PowerUpTag.TribBalls)  { Game_Manager.Instance.TriBall_PowerUp(); }
+            if (PowerUpType == PowerUpTag.TribBalls) { Game_Manager.Instance.TriBall_PowerUp(); }
             if(PowerUpType == PowerUpTag.MetalBall)  { Game_Manager.Instance.MetalBall_PowerUp(); }
             if(PowerUpType == PowerUpTag.MegaPaddle) { Game_Manager.Instance.MegaPaddle_PowerUp(true); }
 

@@ -12,6 +12,9 @@ public class Brick_Col : MonoBehaviour
         master_brick = transform.parent.GetComponent<Brick>();
     }
 
+
+
+    #region Reflections
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Ball"))
@@ -33,11 +36,11 @@ public class Brick_Col : MonoBehaviour
         Right, Left, Up, Down, UpLeft, UpRight
     }
 
-
     void callReflection(GameObject ball)
     {
         ball.gameObject.GetComponent<Ball>().ReflectBallFromBrickColliding(reflect_to);
     }
+    #endregion
 
 
 
@@ -45,7 +48,7 @@ public class Brick_Col : MonoBehaviour
     void soundCommonBrick_MetalBall()
     {
         Game_Manager.Instance.audio_manager.PlaySound(Game_Manager.Instance.audio_manager.metalball);
-        Game_Manager.Instance.audio_manager.PlaySound2(Game_Manager.Instance.audio_manager.concretebreak);
+        Game_Manager.Instance.audio_manager.PlaySound2(Game_Manager.Instance.audio_manager.brickhit2);
     }
     void soundConcreteBrick_MetalBall()
     {

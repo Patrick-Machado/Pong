@@ -7,7 +7,7 @@ public class Game_Manager : MonoBehaviour
 {
     public static Game_Manager Instance;
     public Stage_Screens current_Screen = Stage_Screens.Menu;
-    public Player_State player_state = Player_State.Resting;
+    public Player_State  player_state = Player_State.Resting;
 
     public GameObject mainMenu;
     public GameObject replay;
@@ -24,7 +24,9 @@ public class Game_Manager : MonoBehaviour
     public bool TestingOnPC = false;// if true it will read the keyboard instead of mobile inputs
 
     public string InitialLevelName = "Level_1";
-    public GameObject currentSceneMainBall;
+    [HideInInspector] public GameObject currentSceneMainBall;
+    
+    
     void Awake()
     {
         if (Instance == null)
@@ -33,6 +35,8 @@ public class Game_Manager : MonoBehaviour
             DontDestroyOnLoad(this);
         }
     }
+
+
 
     public enum Stage_Screens
     {
@@ -51,6 +55,7 @@ public class Game_Manager : MonoBehaviour
         mainMenu.SetActive(false);
         currentSceneMainBall = null;
         ChangeScene(InitialLevelName);
+        
         //testing purposes only:
         if(InitialLevelName == "Level_1") { current_Screen = Stage_Screens.Level1; }
         if(InitialLevelName == "Level_2") { current_Screen = Stage_Screens.Level2; }
@@ -180,14 +185,22 @@ public class Game_Manager : MonoBehaviour
     }
     public void MegaPaddle_PowerUp(bool key)
     {
-        if(key == true)  GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>().TransformToMegaVisually(); StartCoroutine(Delay());
-        if(key == false && player_state == Player_State.Playing) GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>().TransformToNormalVisually();
+        if(key == true)  GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>()
+                .TransformToMegaVisually(); StartCoroutine(Delay());
+        if(key == false && 
+            player_state == Player_State.Playing) 
+            GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>().TransformToNormalVisually();
     }
 
     void ResetMega()
     {
         if (player_state != Player_State.Playing) { return; }
         MegaPaddle_PowerUp(false);
+    }
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(10f);
+        ResetMega();
     }
     #endregion
 
@@ -198,9 +211,5 @@ public class Game_Manager : MonoBehaviour
             NextStage();
         }
     }
-    IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(10f);
-        ResetMega();
-    }
+    
 }
