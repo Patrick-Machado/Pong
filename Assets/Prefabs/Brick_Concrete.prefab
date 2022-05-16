@@ -268,6 +268,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mBrick_Type: 2
   concrete_cracked_mat: {fileID: 2100000, guid: aebb47d0e41a1a848a046558b6d1e703, type: 2}
+  dustParticle: {fileID: 1000012142692022, guid: a475880e7da0e9548aa05cb7933752cd, type: 3}
+  greydustParticle: {fileID: 1000012142692022, guid: 83db0b3a34cde26449b1f496d672af62, type: 3}
+  ironHitParticle: {fileID: 1000011396044746, guid: 96b2ec0239d11fa4b9792311efceb8ed, type: 3}
 --- !u!1 &8184985582433308445
 GameObject:
   m_ObjectHideFlags: 0

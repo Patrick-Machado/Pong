@@ -7,8 +7,12 @@ public class Brick : MonoBehaviour
 
     public Brick_Type mBrick_Type = Brick.Brick_Type.common;
 
-    Level_Bricks    level_Bricks;
+    Level_Bricks level_Bricks;
     public Material concrete_cracked_mat;
+
+    public GameObject dustParticle;
+    public GameObject greydustParticle;
+    public GameObject ironHitParticle;
 
     void Start()
     {
@@ -26,10 +30,12 @@ public class Brick : MonoBehaviour
     {
         ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
 
-        if(mBrick_Type == Brick.Brick_Type.common)
+        if (mBrick_Type == Brick.Brick_Type.common)
         {
             if (!notcallReduceTwice) { level_Bricks.Reduce_A_Brick(); }
-            
+
+            TriggerVFX(dustParticle);
+
             notcallReduceTwice = true;
             DestroyBrick();
         }
@@ -40,22 +46,23 @@ public class Brick : MonoBehaviour
                 hitcount += 1;
                 GetComponent<MeshRenderer>().material = concrete_cracked_mat;
                 if (ball.isMetalBall) { hitcount += 1; }
+                TriggerVFX(greydustParticle);
 
                 onDelay = true;
                 StartCoroutine(Delay());
             }
-            if(hitcount > 1) // when the brick is hit twice
+            if (hitcount > 1) // when the brick is hit twice
             {
                 if (!notcallReduceTwice) { level_Bricks.Reduce_A_Brick(); }
 
                 notcallReduceTwice = true;
                 DestroyBrick();
             }
-            
-        }
-        else if(mBrick_Type == Brick.Brick_Type.metal)// is indestructible so only bounces
-        {
 
+        }
+        else if (mBrick_Type == Brick.Brick_Type.metal)// is indestructible so only bounces
+        {
+               
         }
     }
     #endregion
@@ -79,6 +86,13 @@ public class Brick : MonoBehaviour
     void removeOnDelay()
     {
         onDelay = false;
+    }
+    #endregion
+
+
+    #region Particles
+    public void TriggerVFX(GameObject particle) {
+        Instantiate(particle, transform.position, Quaternion.identity);
     }
     #endregion
 }
