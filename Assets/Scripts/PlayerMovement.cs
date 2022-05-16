@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     {
         TestingOnPC = Game_Manager.Instance.TestingOnPC;
         Game_Manager.Instance.mainMenu.SetActive(false);
-        if (TestingOnPC) { Invoke("InitBall",1f); }
+        StartCoroutine(BallInitTime());
     }
 
     void Update()
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
-                        deltaX = touchpos.x - transform.position.x; InitBall();
+                        deltaX = touchpos.x - transform.position.x;
                         break;
                     case TouchPhase.Moved:
                         transform.position = new Vector3(touchpos.x * moveSpeedMobile * Time.fixedDeltaTime, transform.position.y, transform.position.z) ;
@@ -70,5 +70,10 @@ public class PlayerMovement : MonoBehaviour
         ball.Pause_Ball(false);
     }
 
+    IEnumerator BallInitTime()
+    {
+        yield return new WaitForSeconds(1f);
+        InitBall();
+    }
 
 }
