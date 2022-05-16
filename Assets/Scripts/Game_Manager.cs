@@ -23,13 +23,11 @@ public class Game_Manager : MonoBehaviour
 
     public bool TestingOnPC = false;// if true it will read the keyboard instead of mobile inputs
 
+    public string InitialLevelName = "Level_1";
+    public GameObject currentSceneMainBall;
     void Awake()
     {
-        if (Instance != null)
-        {
-            GameObject.Destroy(Instance);
-        }
-        else
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(this);
@@ -51,8 +49,15 @@ public class Game_Manager : MonoBehaviour
     public void Play()
     {
         mainMenu.SetActive(false);
-        ChangeScene("Level_1");
-        current_Screen = Stage_Screens.Level1;
+        currentSceneMainBall = null;
+        ChangeScene(InitialLevelName);
+        //testing purposes only:
+        if(InitialLevelName == "Level_1") { current_Screen = Stage_Screens.Level1; }
+        if(InitialLevelName == "Level_2") { current_Screen = Stage_Screens.Level2; }
+        if(InitialLevelName == "Level_3") { current_Screen = Stage_Screens.Level3; }
+        if(InitialLevelName == "Level_4") { current_Screen = Stage_Screens.Level4; }
+        if(InitialLevelName == "Level_5") { current_Screen = Stage_Screens.Level5; }
+
         setPlayerStateAs(Player_State.Playing);
         Time.timeScale = 1f;
     }
@@ -64,10 +69,12 @@ public class Game_Manager : MonoBehaviour
 
     public void Replay()
     {
+        currentSceneMainBall = null;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void Back_to_menu()
     {
+        currentSceneMainBall = null;
         ChangeScene("Menu");
     }
     #endregion
@@ -77,13 +84,15 @@ public class Game_Manager : MonoBehaviour
 
     public void ChangeScene(string sceneName)
     {
+        currentSceneMainBall = null;
         SceneManager.LoadScene(sceneName);
     }
 
     public void NextStage()
     {
+        currentSceneMainBall = null;
         setPlayerStateAs(Player_State.Playing);
-        if(current_Screen == Stage_Screens.Level5) { GameWin.SetActive(true); ChangeScene("GameWin"); current_Screen = Stage_Screens.Menu; }
+        if(current_Screen == Stage_Screens.Level5) { GameWin.SetActive(true); current_Screen = Stage_Screens.Menu; player_state = Player_State.Resting; ChangeScene("GameWin");  }
         if(current_Screen == Stage_Screens.Level4) { ChangeScene("Level_5"); current_Screen = Stage_Screens.Level5; Time.timeScale = 2f; }
         if(current_Screen == Stage_Screens.Level3) { ChangeScene("Level_4"); current_Screen = Stage_Screens.Level4; Time.timeScale = 1.6f; }
         if(current_Screen == Stage_Screens.Level2) { ChangeScene("Level_3"); current_Screen = Stage_Screens.Level3; Time.timeScale = 1.3f; }
@@ -93,14 +102,7 @@ public class Game_Manager : MonoBehaviour
     public void Stage_Win()
     {
         setPlayerStateAs(Player_State.Resting);
-        if (BallClones.Count > 0)
-        {
-            foreach(GameObject ball in BallClones)
-            {
-                if (ball != null)
-                { ball.GetComponent<Ball>().Pause_Ball(true); }
-            }
-        }
+        PauseEveryBall();
         nextlevel.SetActive(true);
     }
 
@@ -113,8 +115,22 @@ public class Game_Manager : MonoBehaviour
         {
             replay.SetActive(true);
             backtomenu.SetActive(true);
+            PauseEveryBall();
         }
         setPlayerStateAs(Player_State.Resting);
+    }
+
+    void PauseEveryBall()
+    {
+        if (BallClones.Count > 0)
+        {
+            foreach (GameObject ball in BallClones)
+            {
+                if (ball != null)
+                { ball.GetComponent<Ball>().Pause_Ball(true); }
+            }
+        }
+        if (currentSceneMainBall != null) currentSceneMainBall.GetComponent<Ball>().Pause_Ball(true);
     }
 
     #endregion
@@ -150,8 +166,8 @@ public class Game_Manager : MonoBehaviour
     }
     public void MetalBall_PowerUp()
     {
-        GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>().TrnsformToMetalBall();
-        
+        if (currentSceneMainBall != null) currentSceneMainBall.GetComponent<Ball>().TrnsformToMetalBall();
+
         if (BallClones.Count > 0)
         {
             foreach (GameObject ball in BallClones)
@@ -164,12 +180,13 @@ public class Game_Manager : MonoBehaviour
     }
     public void MegaPaddle_PowerUp(bool key)
     {
-        if(key == true)  GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>().TransformToMegaVisually(); Invoke("ResetMega", 10f);
-        if(key == false) GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>().TransformToNormalVisually();
+        if(key == true)  GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>().TransformToMegaVisually(); StartCoroutine(Delay());
+        if(key == false && player_state == Player_State.Playing) GameObject.FindGameObjectWithTag("Paddle").GetComponent<Paddle_Skin>().TransformToNormalVisually();
     }
 
     void ResetMega()
     {
+        if (player_state != Player_State.Playing) { return; }
         MegaPaddle_PowerUp(false);
     }
     #endregion
@@ -181,5 +198,9 @@ public class Game_Manager : MonoBehaviour
             NextStage();
         }
     }
-    
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(10f);
+        ResetMega();
+    }
 }

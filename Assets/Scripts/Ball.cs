@@ -21,12 +21,14 @@ public class Ball : MonoBehaviour
     public bool isMetalBall = false;
     public GameObject normalBallSkin;
     public GameObject metalBallSkin;
+    bool paddleBounceHitDelay = false;
 
-   
+
 
     void Start()
     {
         displacement = transform.position;
+        if(Game_Manager.Instance.currentSceneMainBall == null) { Game_Manager.Instance.currentSceneMainBall = this.gameObject; }
     }
 
     public void UnPauseBall()
@@ -37,6 +39,7 @@ public class Ball : MonoBehaviour
     void FixedUpdate()
     {
         
+        if (updatingBallPosWithThePaddleTargetPos == true) { transform.position = resetPos.position; displacement = transform.position; return; }
         if (isPaused) return;
 
 
@@ -68,12 +71,15 @@ public class Ball : MonoBehaviour
             PlayBallSound();
         }
 
-        if(displacement.y < -0.16f && coliding)
+        if (displacement.y < -0.16f && coliding && !paddleBounceHitDelay)
         {
             velocity = velocity.magnitude * elasticity *
                     Reflect(velocity.normalized, Vector3.up);
 
             PlayBallSound();
+            
+            paddleBounceHitDelay = true;
+            StartCoroutine(paddleBounceHitDelayTime());
 
         }
 
@@ -142,14 +148,15 @@ public class Ball : MonoBehaviour
         hitOnLooseLine = true;
         Pause_Ball(true);
         velocity = Vector3.zero;
-        transform.position = resetPos.transform.position;
+        updatingBallPosWithThePaddleTargetPos = true;
         displacement = transform.position;
 
-        Invoke("ReShootBall", 1f);
+        StartCoroutine(ReshootBallDelay()); ;
     }
 
     void ReShootBall()
     {
+        if(Game_Manager.Instance.current_Screen == Game_Manager.Stage_Screens.Menu) { return; }
         hitOnLooseLine = false;
         Pause_Ball(false);
 
@@ -171,6 +178,21 @@ public class Ball : MonoBehaviour
     {
         if (isMetalBall) { Game_Manager.Instance.audio_manager.PlaySound(Game_Manager.Instance.audio_manager.metalball); }
         else { Game_Manager.Instance.audio_manager.PlayAnyPong(); }
+    }
+
+    bool updatingBallPosWithThePaddleTargetPos = false;
+    IEnumerator ReshootBallDelay()
+    {
+        yield return new WaitForSeconds(2f);
+        updatingBallPosWithThePaddleTargetPos = false;
+        ReShootBall();
+    }
+
+    IEnumerator paddleBounceHitDelayTime()
+    {
+
+        yield return new WaitForSeconds(1f);
+        paddleBounceHitDelay = false;
     }
 
 }

@@ -19,7 +19,7 @@ public class PowerUp : MonoBehaviour
         if (transform.position.y < -4f)
         {
             GameObject.FindGameObjectWithTag("Level_Ctrl").GetComponent<Level_Bricks>().setPowerUpIsRunningOff();
-            Destroy(gameObject);
+            Reset_PowerUp();
         }
     }
     private void OnTriggerEnter(Collider other)

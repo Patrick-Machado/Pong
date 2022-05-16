@@ -622,6 +622,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8865456973430202331, guid: f52f88a99abe20f48b4c17ce77c11cb2, type: 3}
+      propertyPath: TestingOnPC
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f52f88a99abe20f48b4c17ce77c11cb2, type: 3}
 --- !u!1001 &1162007022
@@ -821,6 +825,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Brick_Concrete
       objectReference: {fileID: 0}
+    - target: {fileID: 8184985581298416965, guid: 10ea4287498d79c48af0243107dd4820, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8184985581298416966, guid: 10ea4287498d79c48af0243107dd4820, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -943,6 +951,10 @@ PrefabInstance:
     - target: {fileID: 8184985581298416965, guid: 10ea4287498d79c48af0243107dd4820, type: 3}
       propertyPath: m_Name
       value: Brick_Concrete (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184985581298416965, guid: 10ea4287498d79c48af0243107dd4820, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8184985581298416966, guid: 10ea4287498d79c48af0243107dd4820, type: 3}
       propertyPath: m_RootOrder

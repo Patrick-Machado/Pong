@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    bool TestingOnPC = false;
+    [SerializeField] bool TestingOnPC = false;
     public float moveSpeed = 20.0f;
     public float moveSpeedMobile = 900.0f;
     public float limitMovement = 4f;
@@ -15,9 +15,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        if (TestingOnPC) { Invoke("InitBall",1f); }
-        Game_Manager.Instance.mainMenu.SetActive(false);
         TestingOnPC = Game_Manager.Instance.TestingOnPC;
+        Game_Manager.Instance.mainMenu.SetActive(false);
+        if (TestingOnPC) { Invoke("InitBall",1f); }
     }
 
     void Update()

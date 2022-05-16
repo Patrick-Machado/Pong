@@ -44,7 +44,7 @@ public class Audio : MonoBehaviour
 
     public void PlayAnyPong()
     {
-        int id_pongsound = Random.RandomRange(0, ballpong.Count - 1);
+        int id_pongsound = Random.Range(0, ballpong.Count - 1);
         speaker.clip = ballpong[id_pongsound];
         speaker.Play();
     }

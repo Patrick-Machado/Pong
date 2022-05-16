@@ -35,7 +35,7 @@ public class Brick : MonoBehaviour
                 if (ball.isMetalBall) { hitcount += 1; }
 
                 onDelay = true;
-                Invoke("removeOnDelay", .8f);
+                StartCoroutine(Delay());
             }
             if(hitcount > 1) // when the brick is hit twice
             {
@@ -70,4 +70,10 @@ public class Brick : MonoBehaviour
         Destroy(gameObject);
     }
 
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(1f);
+        removeOnDelay();
+    }
 }

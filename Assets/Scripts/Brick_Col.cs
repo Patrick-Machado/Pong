@@ -6,6 +6,7 @@ public class Brick_Col : MonoBehaviour
 {
     Brick master_brick;
     public reflection_direction reflect_to = reflection_direction.Right;
+
     void Start()
     {
         master_brick = transform.parent.GetComponent<Brick>();
@@ -14,7 +15,7 @@ public class Brick_Col : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Ball"))
-        {
+        {   
             if(master_brick.mBrick_Type == Brick.Brick_Type.common    &&  other.gameObject.GetComponent<Ball>().isMetalBall) { soundCommonBrick_MetalBall(); } //NOT REFLECT the metal ball should pass through destroying
             if(master_brick.mBrick_Type == Brick.Brick_Type.concrete  &&  other.gameObject.GetComponent<Ball>().isMetalBall) { soundConcreteBrick_MetalBall(); } //reflect but destroy with one hit
             if(master_brick.mBrick_Type == Brick.Brick_Type.metal     &&  other.gameObject.GetComponent<Ball>().isMetalBall) { soundMetalBrick_MetalBall();  callReflection(other.gameObject); } //just reflect with metal sound
@@ -29,7 +30,7 @@ public class Brick_Col : MonoBehaviour
 
     public enum reflection_direction
     {
-        Right, Left, Up, Down
+        Right, Left, Up, Down, UpLeft, UpRight
     }
 
 
@@ -44,7 +45,7 @@ public class Brick_Col : MonoBehaviour
     void soundCommonBrick_MetalBall()
     {
         Game_Manager.Instance.audio_manager.PlaySound(Game_Manager.Instance.audio_manager.metalball);
-        Game_Manager.Instance.audio_manager.PlaySound2(Game_Manager.Instance.audio_manager.brickhit2);
+        Game_Manager.Instance.audio_manager.PlaySound2(Game_Manager.Instance.audio_manager.concretebreak);
     }
     void soundConcreteBrick_MetalBall()
     {

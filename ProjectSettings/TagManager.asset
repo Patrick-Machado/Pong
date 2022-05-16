@@ -11,6 +11,7 @@ TagManager:
   - Level_Ctrl
   - Reset_PowerUpPos
   - Clone
+  - Paddle_Inner_Right
   layers:
   - Default
   - TransparentFX
